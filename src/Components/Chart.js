@@ -5,6 +5,7 @@ import { List, ListItem } from 'react-native-elements'
 import { Networking } from '../Networking/networking'
 import Loading from './Loading'
 import moment from 'moment';
+import { Config } from '../Config'
 import { VictoryChart, VictoryTheme, VictoryAxis, VictoryCandlestick } from "victory-native";
 
 export default class Chart extends Component {
@@ -92,7 +93,10 @@ export default class Chart extends Component {
                                 })
                             }
                         }}
-                        candleColors={{ positive: "#56a440", negative: "#f86940" }}
+                        candleColors={{
+                            positive: Config.colors.positiveGreen,
+                            negative: Config.colors.negativeRed
+                        }}
                         data={this.state.chartData}
                     />
                 </VictoryChart>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, Text, StyleSheet, View } from 'react-native';
+import { Config } from '../Config'
 
 export default class PercentageChange extends Component {
     constructor(props) {
@@ -9,12 +10,22 @@ export default class PercentageChange extends Component {
         }
     }
 
+    style(value) {
+        const intPct = parseFloat(value)
+        if (intPct === 0) return
+        if(intPct > 0) return { color: Config.colors.positiveGreen }
+        else return { color: Config.colors.negativeRed }
+    }
+
     render() {
-        return (  
+
+        const { pctChangeHour, pctChangeDay, pctChangeWeek } = this.props.coin
+
+        return (
             <View>
-                <Text>hour: % {this.props.coin.pctChangeHour}</Text>
-                <Text>day: % {this.props.coin.pctChangeDay}</Text>
-                <Text>week: % {this.props.coin.pctChangeWeek}</Text>
+                <Text style={this.style(pctChangeHour)}>hour: % {pctChangeHour}</Text>
+                <Text style={this.style(pctChangeDay)}>day: % {pctChangeDay}</Text>
+                <Text style={this.style(pctChangeWeek)}>week: % {pctChangeWeek}</Text>
             </View>
         );
     }

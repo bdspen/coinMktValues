@@ -49,7 +49,7 @@ export default class CoinDetails extends Component {
                     </View>
                     <View style={styles.viewWrapper}>
                         <Icon name="bar-graph" type= 'entypo' size={20} />
-                        <Text style={{fontSize: 20}}> {this.state.coin.priceBtc}</Text>
+                        <Text style={{fontSize: 20}}> {this.state.coin.dayVolumeUsd}</Text>
                     </View>
                     <View style={styles.viewWrapper}>
                         <ButtonGroup

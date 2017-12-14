@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { Tabs } from './Tabs'
+import { FormattedWrapper } from 'react-native-globalize';
 
 export default class App extends Component {
 
@@ -14,6 +15,10 @@ export default class App extends Component {
     componentDidMount() {}
 
     render() {
-        return ( <Tabs /> )
+        return (
+            <FormattedWrapper locale={"en"}>
+                <Tabs />
+            </FormattedWrapper>
+        )
     }
 }

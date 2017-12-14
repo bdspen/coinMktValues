@@ -995,6 +995,10 @@ clamp@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/clamp/-/clamp-1.0.1.tgz#66a0e64011816e37196828fdc8c8c147312c8634"
 
+cldrjs@^0.4.8:
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/cldrjs/-/cldrjs-0.4.8.tgz#3b994c464d2a32b5aca7c5de17a60a87e45dc4f9"
+
 cli-cursor@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-2.1.0.tgz#b35dac376479facc3e94747d41d0d0f5238ffcb5"
@@ -1846,6 +1850,10 @@ global@^4.3.0:
   dependencies:
     min-document "^2.19.0"
     process "~0.5.1"
+
+globalize@joshswan/globalize:
+  version "1.1.1"
+  resolved "https://codeload.github.com/joshswan/globalize/tar.gz/1e0466dcba692e3a7674e40a43d23f160f4f4bf4"
 
 globals@^9.18.0:
   version "9.18.0"
@@ -3526,6 +3534,15 @@ react-native-elements@^0.18.5:
     lodash.times "^4.3.2"
     opencollective "^1.0.3"
     prop-types "^15.5.8"
+
+react-native-globalize@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-globalize/-/react-native-globalize-1.2.3.tgz#297f7c2770d81c8c73ea470e1582cb3828cb738a"
+  dependencies:
+    cldrjs "^0.4.8"
+    globalize joshswan/globalize
+    moment "^2.19.3"
+    prop-types "^15.5.10"
 
 react-native-svg@^6.0.0:
   version "6.0.0"

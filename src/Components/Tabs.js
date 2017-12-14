@@ -26,7 +26,7 @@ export const Tabs = TabNavigator({
     screen: WatchedStack,
     navigationOptions: ({navigation}) => ({
       tabBarLabel: 'Watched',
-      tabBarIcon: ({ tintColor }) => <Icon name="remove-red-eye" size={35} color={tintColor} />,
+      tabBarIcon: ({ tintColor }) => <Icon name="eye" type={'font-awesome'} size={30} color={tintColor} />,
       tabBarOnPress: ({scene, jumpToIndex}) => {
         if (scene.route.index !== 0) { // if not on first screen of the StackNavigator in focused tab.
           navigation.dispatch(NavigationActions.reset({
@@ -44,7 +44,7 @@ export const Tabs = TabNavigator({
     screen: All,
     navigationOptions: {
       tabBarLabel: 'All',
-      tabBarIcon: ({ tintColor }) => <Icon name="all-inclusive" size={35} color={tintColor} />
+      tabBarIcon: ({ tintColor }) => <Icon name="all-inclusive" size={30} color={tintColor} />
     },
   },
 }, {
@@ -52,6 +52,9 @@ export const Tabs = TabNavigator({
   animationEnabled: true,
   lazy: true,
   tabBarOptions: {
+    labelStyle: {
+      fontSize: 14,
+    },
     style: {marginTop: 20},
   },
 })

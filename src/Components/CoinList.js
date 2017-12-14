@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import Loading from './Loading'
-import { List, ListItem } from 'react-native-elements'
+import { List, ListItem, SearchBar, Icon } from 'react-native-elements'
 import PercentageChange from './PercentageChange'
 export default class CoinList extends Component {
 
@@ -27,7 +27,7 @@ export default class CoinList extends Component {
             style={{fontSize: 20}}
             onPress={() => this.props.navigation.navigate('Details', {coin: item})}            
             subtitle={'$' + item.priceUsd}
-            subtitleStyle={{fontWeight: 'bold'}}
+            subtitleStyle={{ fontSize: 17, color: 'black'}}
             rightIcon={<PercentageChange coin={item} />}
             rightTitleNumberOfLines={3}
         />
@@ -43,7 +43,23 @@ export default class CoinList extends Component {
         }
 
         return (
+            
             <View>
+
+                {/* <SearchBar
+                lightTheme
+                round
+                onChangeText={() => {}}
+                onClearText={() => {}}
+                placeholder='Type Here...' />
+
+                <Icon
+                raised
+                name='heartbeat'
+                type='font-awesome'
+                color='#f50'
+                onPress={() => console.log('hello')} /> */}
+
                 <List containerStyle={{ marginTop: 0 }}>
                     <FlatList
                         data={this.state.coinList}

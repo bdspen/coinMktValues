@@ -8,32 +8,51 @@ export const Stores = {
 
 export class Storage {
 
-    storage = AsyncStorage
-
     constructor() { }
 
     setWatchedCoins(value) {
-        return this.storage.setItem(Stores.watched, value)
+        return AsyncStorage.setItem(Stores.watched, JSON.stringify(value))
+    }
+
+    async pushWatchedCoin(id){
+        const watched = await this.getWatchedCoins()
+        if (watched.indexOf(id) >= 0) throw new Error("This item is already in the watch list.")
+        watched.push(id)
+        return AsyncStorage.setItem(Stores.watched, JSON.stringify(watched))
+    }
+
+    async removeWatchedCoin(id){
+        const watched = await this.getWatchedCoins()
+        const index = watched.indexOf(id)
+        if (index < 0) throw new Error("This item is not in the watch list.")
+        watched.splice(index, 1)
+        return AsyncStorage.setItem(Stores.watched, JSON.stringify(watched))
     }
 
     async hasData(store) {
-        const keys = await this.storage.getAllKeys()
+        const keys = await AsyncStorage.getAllKeys()
         console.log(keys)
     }
 
     async getWatchedCoins() {
-        let watchedCoins = await this.storage.getItem(Stores.watched)
-        if(!watchedCoins) watchedCoins = Config.defaultWatchListCoins
+
+        let watchedCoins = await AsyncStorage.getItem(Stores.watched)
+        if(!watchedCoins) {
+            return this.setWatchedCoins(Config.defaultWatchListCoins)
+            .then(() => this.getWatchedCoins())
+        }
+
+        watchedCoins = JSON.parse(watchedCoins)
+        if (!Array.isArray(watchedCoins)) watchedCoins = [watchedCoins]
         return watchedCoins
     }
 
     setCoinResource(value) {
-        this.storage.clear()
-        return this.storage.setItem(Stores.coinResource, value)
+        return AsyncStorage.setItem(Stores.coinResource, value)
     }
 
     getCoinResource() {
-        return this.storage.get(Stores.coinResource)
+        return AsyncStorage.get(Stores.coinResource)
     }
 
     updateSelectedCoins(coins, resource) {

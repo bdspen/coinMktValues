@@ -18,9 +18,9 @@ export default class Chart extends Component {
         super(props);
         this.state = {
             isLoading: true,
-            coin: null,
+            coin: props.coin,
             chartData: null,
-            selectedIndex: null
+            selectedIndex: props.selectedIndex
         }
     }
 
@@ -44,6 +44,7 @@ export default class Chart extends Component {
 
     componentDidMount() {
         this.networking = new Networking()
+        this.fetchChartData()        
     }
 
     fetchChartData() {
@@ -87,7 +88,7 @@ export default class Chart extends Component {
                         }}
                         animate={{
                             onEnter: {
-                                duration: 100,
+                                duration: 50,
                                 before: () => ({
                                     _y: 0
                                 })

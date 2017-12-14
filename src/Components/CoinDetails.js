@@ -1,31 +1,23 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, Text, StyleSheet, View, Button } from 'react-native';
+import { ActivityIndicator, Text, StyleSheet, View } from 'react-native'
 import { Icon, Card, ButtonGroup } from 'react-native-elements'
 import { Networking } from '../Networking/networking'
-import { Storage } from '../Storage/storage'
+import PercentageChange from './PercentageChange'
+import WatchButton from './WatchButton'
+import { FormattedCurrency, FormattedNumber } from 'react-native-globalize'
+import { Config } from '../Config'
 import moment from 'moment';
 import Chart from './Chart'
 export default class CoinDetails extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
             isLoading: true,
             coin: props.navigation.state.params.coin,
-            isWatched: true,
-            selectedIndex: 1            
+            selectedIndex: 1        
         }
-        this.updateIndex = this.updateIndex.bind(this)                
-    }
-
-    async componentDidMount() {
-        const storage = new Storage()
-        const watchedList = await storage.getWatchedCoins()
-        const isWatched = watchedList.indexOf(this.state.coin.id) >= 0
-        this.setState({
-            isWatched: isWatched
-        })
-        console.log(this.state.isWatched)
-
+        this.updateIndex = this.updateIndex.bind(this)        
     }
 
     updateIndex (selectedIndex) {
@@ -49,7 +41,11 @@ export default class CoinDetails extends Component {
                     </View>
                     <View style={styles.viewWrapper}>
                         <Icon name="bar-graph" type= 'entypo' size={20} />
-                        <Text style={{fontSize: 20}}> {this.state.coin.dayVolumeUsd}</Text>
+                        <FormattedNumber
+                            value={parseInt(this.state.coin.dayVolumeUsd)}
+                            style={{fontSize: 20}}
+                        />
+                        <Text style={{fontSize: 20}}> {this.state.coin.symbol}</Text>
                     </View>
                     <View style={styles.viewWrapper}>
                         <ButtonGroup
@@ -60,17 +56,15 @@ export default class CoinDetails extends Component {
                         />
                     </View>
                     <View style={styles.viewWrapper}>
+                        <WatchButton coin={this.state.coin} />
+                    </View>
+
+                    {/* <View style={styles.viewWrapper}>
+                        <PercentageChange coin={this.state.coin}/>
+                    </View> */}
+                    <View style={styles.viewWrapper}>
                         <Chart coin={this.state.coin} selectedIndex={this.state.selectedIndex}/>
                     </View>
-                    {
-                        !this.state.isWatched &&
-                        <Button
-                            large
-                            backgroundColor='black'
-                            icon={{name: 'envira', type: 'font-awesome'}}
-                            title='ADD TO WATCHED'
-                        />
-                    }
                     <Text>Last Updated: {
                         moment((this.state.coin.lastUpdated * 1000)).format('h:mm')
                     }</Text>

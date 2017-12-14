@@ -44,7 +44,14 @@ export class Networking {
 
     getHistory(toTime, fromSymbol, toSymbol, limit) {
         return fetch(this.networkConfig.historyUrl(toTime, fromSymbol, toSymbol, limit))
-        .then(result => result.json())
+        .then(result => {
+            result = result.json()
+            if (result.length === 0){
+                console.log('retrying request...')
+                this.getHistory(toTime, fromSymbol, toSymbol, limit)
+            }
+            else return result
+        })
     }
 
     // async requestCoinData() {

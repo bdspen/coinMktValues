@@ -12,9 +12,11 @@ export default class PercentageChange extends Component {
 
     style(value) {
         const intPct = parseFloat(value)
+        const styleObj = { fontSize: 14, fontWeight: 'bold', color: null}
         if (intPct === 0) return
-        if(intPct > 0) return { color: Config.colors.positiveGreen }
-        else return { color: Config.colors.negativeRed }
+        if(intPct > 0) styleObj.color = Config.colors.positiveGreen
+        else styleObj.color = Config.colors.negativeRed 
+        return styleObj
     }
 
     render() {

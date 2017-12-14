@@ -9,15 +9,37 @@ export default class CoinList extends Component {
         super(props);
         this.state = {
             isLoading: true,
-            coinList: []
+            coinList: [],
+            filteredCoinList: []
         }
+        this.filterList = this.filterList.bind(this)
+        this.removeFilter = this.removeFilter.bind(this)        
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             coinList: nextProps.coinList,
+            filteredCoinList: nextProps.coinList,
             isLoading: false
         });
+    }
+
+    filterList(query){
+        if (query.length <= 2) {
+            if (this.state.filteredCoinList.length > 0) this.removeFilter()
+            return
+        }
+        const keys = ['name', 'symbol']
+        this.setState({
+            filteredCoinList: this.state.coinList.filter(coin => {
+                const keys = ['name', 'symbol']
+                return keys.filter(key => coin[key].toLowerCase().includes(query.toLowerCase())).length
+            })
+        })
+    }
+
+    removeFilter(){
+        this.setState({ filteredList: this.state.coinList})
     }
 
     _renderItem = ({ item }) => (
@@ -46,23 +68,16 @@ export default class CoinList extends Component {
             
             <View>
 
-                {/* <SearchBar
+                <SearchBar
                 lightTheme
                 round
-                onChangeText={() => {}}
-                onClearText={() => {}}
-                placeholder='Type Here...' />
-
-                <Icon
-                raised
-                name='heartbeat'
-                type='font-awesome'
-                color='#f50'
-                onPress={() => console.log('hello')} /> */}
+                onChangeText={this.filterList}
+                onClearText={this.removeFilter}
+                placeholder='Search...' />
 
                 <List containerStyle={{ marginTop: 0 }}>
                     <FlatList
-                        data={this.state.coinList}
+                        data={this.state.filteredCoinList}
                         keyExtractor={(coin, index) => coin.id}
                         renderItem={this._renderItem}
                     />

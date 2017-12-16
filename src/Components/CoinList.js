@@ -10,10 +10,13 @@ export default class CoinList extends Component {
         this.state = {
             isLoading: true,
             coinList: [],
-            filteredCoinList: []
+            refreshFunction: props.refreshFunction,
+            filteredCoinList: [],
+            isRefreshing: false
         }
         this.filterList = this.filterList.bind(this)
-        this.removeFilter = this.removeFilter.bind(this)        
+        this.removeFilter = this.removeFilter.bind(this)
+        this.refresh = this.refresh.bind(this)    
     }
 
     componentWillReceiveProps(nextProps) {
@@ -24,9 +27,20 @@ export default class CoinList extends Component {
         });
     }
 
+    refresh(){
+        this.setState({ isRefreshing: true},
+        () => {
+            this.state.refreshFunction().then(() => {
+                this.setState({
+                    isRefreshing: false
+                });
+            })
+        })
+    }
+
     filterList(query){
         if (query.length <= 2) {
-            if (this.state.filteredCoinList.length > 0) this.removeFilter()
+            this.removeFilter()
             return
         }
         const keys = ['name', 'symbol']
@@ -39,7 +53,7 @@ export default class CoinList extends Component {
     }
 
     removeFilter(){
-        this.setState({ filteredList: this.state.coinList})
+        this.setState({ filteredCoinList: this.state.coinList})
     }
 
     _renderItem = ({ item }) => (
@@ -67,16 +81,20 @@ export default class CoinList extends Component {
         return (
             
             <View>
-
                 <SearchBar
                 lightTheme
-                round
+                containerStyle={{backgroundColor: 'white'}}
+                inputStyle={{backgroundColor: 'white'}}
                 onChangeText={this.filterList}
                 onClearText={this.removeFilter}
+                autoCorrect={false}
+                autoCapitalize={'none'}
                 placeholder='Search...' />
 
                 <List containerStyle={{ marginTop: 0 }}>
                     <FlatList
+                        refreshing={this.state.isRefreshing}                    
+                        onRefresh={this.refresh}                    
                         data={this.state.filteredCoinList}
                         keyExtractor={(coin, index) => coin.id}
                         renderItem={this._renderItem}

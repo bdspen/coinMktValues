@@ -17,7 +17,7 @@ export default class App extends Component {
     render() {
         return (
             <FormattedWrapper locale={"en"}>
-                <Tabs />
+                <Tabs style={{backgroundColor: 'white'}}/>
             </FormattedWrapper>
         )
     }

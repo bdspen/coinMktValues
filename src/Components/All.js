@@ -11,19 +11,23 @@ export default class All extends Component {
             isLoading: true,
             coinList: []
         }
+        this.getCoinList = this.getCoinList.bind(this)                
     }
 
     async componentDidMount() {
-        const networking = new Networking()
+        this.getCoinList()
+    }
+
+    async getCoinList(){
+        const networking = new Networking()        
         const coinList = await networking.getCoinList()
         this.setState({
             isLoading: false,
             coinList: coinList,
         })
-
     }
 
     render() {
-        return <CoinList coinList={this.state.coinList} navigation={this.props.navigation} />
+        return <CoinList coinList={this.state.coinList} refreshFunction={this.getCoinList} navigation={this.props.navigation} />
     }
 }

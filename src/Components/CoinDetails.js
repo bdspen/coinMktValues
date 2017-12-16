@@ -26,10 +26,10 @@ export default class CoinDetails extends Component {
 
     render() {
 
-        const buttons = ['Minute', 'Hour', 'Day']
+        const buttons = ['Minutes', 'Hours', 'Days']
 
         return (
-            <Card title={this.state.coin.name + ' (' + this.state.coin.symbol + ')'} >
+            <Card title={this.state.coin.name + ' (' + this.state.coin.symbol + ')'} containerStyle={{margin:0}} >
                 <View style={styles.column}>
                     <View style={styles.viewWrapper}>
                         <Icon name="dollar" type= 'font-awesome' size={20} />

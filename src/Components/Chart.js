@@ -12,7 +12,7 @@ export default class Chart extends Component {
 
     timeScales = [ 'toMinute', 'toHour', 'toDay' ]
     networking = null
-    numberOfCandles = 10
+    numberOfCandles = 14
 
     constructor(props) {
         super(props);
@@ -48,7 +48,7 @@ export default class Chart extends Component {
     }
 
     fetchChartData() {
-        this.networking.getHistory(this.timeScales[this.state.selectedIndex], this.state.coin.symbol, 'USD', 10)
+        this.networking.getHistory(this.timeScales[this.state.selectedIndex], this.state.coin.symbol, 'USD', this.numberOfCandles)
         .then(({ Data }) => {
 
             Data.forEach(({time}, i) => {
@@ -88,10 +88,7 @@ export default class Chart extends Component {
                         }}
                         animate={{
                             onEnter: {
-                                duration: 50,
-                                before: () => ({
-                                    _y: 0
-                                })
+                                before: () => ({ _y: 0 }),
                             }
                         }}
                         candleColors={{

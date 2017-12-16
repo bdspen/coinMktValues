@@ -37,12 +37,13 @@ export class Storage {
     async getWatchedCoins() {
 
         let watchedCoins = await AsyncStorage.getItem(Stores.watched)
-        if(!watchedCoins) {
+
+        if(watchedCoins) watchedCoins = JSON.parse(watchedCoins)        
+        if(!watchedCoins.length) {
             return this.setWatchedCoins(Config.defaultWatchListCoins)
             .then(() => this.getWatchedCoins())
         }
 
-        watchedCoins = JSON.parse(watchedCoins)
         if (!Array.isArray(watchedCoins)) watchedCoins = [watchedCoins]
         return watchedCoins
     }

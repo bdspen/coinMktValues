@@ -4,6 +4,7 @@ import { TabNavigator, StackNavigator, NavigationActions } from 'react-navigatio
 import { Icon } from 'react-native-elements'
 import Watched  from './Watched'
 import All from './All'
+import Settings from './Settings'
 import CoinDetails from './CoinDetails'
 
 export const WatchedStack = StackNavigator({
@@ -45,6 +46,13 @@ export const Tabs = TabNavigator({
     navigationOptions: {
       tabBarLabel: 'All',
       tabBarIcon: ({ tintColor }) => <Icon name="all-inclusive" size={30} color={tintColor} />
+    },
+  },
+  Settings: {
+    screen: Settings,
+    navigationOptions: {
+      tabBarLabel: 'Settings',
+      tabBarIcon: ({ tintColor }) => <Icon name='settings' size={30} color={tintColor} />
     },
   },
 }, {

@@ -5,20 +5,5 @@ export const Config = Object.freeze({
         negativeRed: "#f86940",
         defaultBlue: "#007aff",
         darkGrey: '#a9a9a9'
-    },
-    settingsFields: {
-        Lists: [
-            "Limit Number of Coins",
-            "Disable Search Bar"
-        ],
-        Charts: [
-            "Number of Candles",
-            "Animations"
-        ],
-        Navigation: [
-            "Navigation Bar Position",
-            "Animations"
-        ]
-
     }
 });

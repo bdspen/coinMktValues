@@ -1,9 +1,11 @@
 import { AsyncStorage } from 'react-native'
 import { Config } from '../Config'
+import Settings from '../Models/Settings'
 
 export const Stores = {
     coinResource : "coinResource",
-    watched : "watched"
+    watched : "watched",
+    settings: "settings"
 }
 
 export class Storage {
@@ -48,12 +50,26 @@ export class Storage {
         return watchedCoins
     }
 
+    getCoinResource() {
+        return AsyncStorage.get(Stores.coinResource)
+    }
+
     setCoinResource(value) {
         return AsyncStorage.setItem(Stores.coinResource, value)
     }
 
-    getCoinResource() {
-        return AsyncStorage.get(Stores.coinResource)
+    getSettings(){
+        return AsyncStorage.getItem(Stores.settings)
+            .then(settings => {
+                if(!settings) this.setSettings(new Settings())
+                    .then(() => this.getSettings())
+                else return new Settings(JSON.parse(settings))
+            })
+    }
+
+    setSettings(newSettings){
+        newSettings = new Settings(newSettings)
+        return AsyncStorage.setItem(Stores.settings, JSON.stringify(newSettings))
     }
 
     updateSelectedCoins(coins, resource) {

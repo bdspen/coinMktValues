@@ -45,13 +45,7 @@ export class Networking {
     getAvailableMarkets(fromSymbol, toSymbol){
         return fetch(this.networkConfig.coinSnapshotUrl(fromSymbol, toSymbol))
         .then((result) => result.json())
-        .then(result => {
-            if (result.length === 0){
-                console.log('retrying request...')
-                this.getAvailableMarkets(fromSymbol, toSymbol)
-            }
-            else return result
-        })
+        .then(({Data}) => Data.Exchanges.map(this._extractExchangeInfo))
     }
 
     getHistory(toTime, fromSymbol, toSymbol, limit) {
@@ -64,6 +58,14 @@ export class Networking {
             }
             else return result
         })
+    }
+
+    _extractExchangeInfo({MARKET, PRICE, LASTUPDATE }){
+        return {
+            market: MARKET,
+            price: PRICE,
+            lastUpdated: LASTUPDATE
+        }
     }
 
     // async requestCoinData() {

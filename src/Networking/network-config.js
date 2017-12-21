@@ -20,7 +20,7 @@ export class NetworkConfig {
     }
 
     coinSnapshotUrl(fromSymbol, toSymbol){
-        let url = `${apiRoutes.CC.apiUrl}${apiRoutes.CC.data}${apiRoutes.CC.coinSnapshot}?`
+        let url = `${apiRoutes.CC.serverUrl}${apiRoutes.CC.apiParam}${apiRoutes.CC.data}${apiRoutes.CC.coinSnapshot}?`
         let qs = QS.stringify({
             fsym: fromSymbol,
             tsym: toSymbol,

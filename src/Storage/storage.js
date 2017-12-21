@@ -63,7 +63,13 @@ export class Storage {
             .then(settings => {
                 if(!settings) this.setSettings(new Settings())
                     .then(() => this.getSettings())
-                else return new Settings(JSON.parse(settings))
+                else {
+                    try{
+                        const s = JSON.parse(settings)
+                        return new Settings(s)
+                    }
+                    catch(e) { throw new Error(e) }
+                }
             })
     }
 

@@ -48,13 +48,13 @@ export const Tabs = TabNavigator({
       tabBarIcon: ({ tintColor }) => <Icon name="all-inclusive" size={30} color={tintColor} />
     },
   },
-  Settings: {
-    screen: Settings,
-    navigationOptions: {
-      tabBarLabel: 'Settings',
-      tabBarIcon: ({ tintColor }) => <Icon name='settings' size={30} color={tintColor} />
-    },
-  },
+  // Settings: {
+  //   screen: Settings,
+  //   navigationOptions: {
+  //     tabBarLabel: 'Settings',
+  //     tabBarIcon: ({ tintColor }) => <Icon name='settings' size={30} color={tintColor} />
+  //   },
+  // },
 }, {
   tabBarPosition: 'top',
   animationEnabled: true,

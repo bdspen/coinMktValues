@@ -1,5 +1,6 @@
 export default class Settings {
 
+    // defaults
     // limitNumberOfCoins: 50,
     // disableSearchBar: false,
     // numberOfCandles: 14,
@@ -18,11 +19,11 @@ export default class Settings {
 
     } = {}) {
 
-        this._limitNumberOfCoins = limitNumberOfCoins
+        this.limitNumberOfCoins = limitNumberOfCoins
         this.disableSearchBar = disableSearchBar
-        this._numberOfCandles = numberOfCandles
+        this.numberOfCandles = numberOfCandles
         this.chartsAnimations = chartsAnimations
-        this._navigationBarPosition = navigationBarPosition
+        this.navigationBarPosition = navigationBarPosition
         this.navigationAnimations = navigationAnimations
 
     }

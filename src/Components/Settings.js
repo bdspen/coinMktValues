@@ -70,54 +70,55 @@ export default class Settings extends Component {
         this.setState({settings: settings})
     }
 
-    renderSwitchType(item) {
-        return <ListItem hideChevron={true} switchButton={true} title={item.title}/>
-    }
+    // renderSwitchType(item) {
+    //     return <ListItem hideChevron={true} switchButton={true} title={item.title}/>
+    // }
 
-    renderNumberForm(item){
-        return (<View>
-            <FormLabel style={{fontWeight: 'normal'}}>{item.title}</FormLabel>                    
-            <FormInput
-                style={{height: 40}}
-                onChangeText={(inputValue) => {
-                    this.setState({
-                        settings: Object.assign(this.state.settings, { [item.key]: inputValue })
-                    });
-                }}
-                value={String(this.state.settings[item.key])}
-            />
-        </View>)
-    }
+    // renderNumberForm(item){
+    //     return (<View>
+    //         <FormLabel style={{fontWeight: 'normal'}}>{item.title}</FormLabel>                    
+    //         <FormInput
+    //             style={{height: 40}}
+    //             onChangeText={(inputValue) => {
+    //                 this.setState({
+    //                     settings: Object.assign(this.state.settings, { [item.key]: inputValue })
+    //                 });
+    //             }}
+    //             value={this.state.settings[item.key]}
+    //         />
+    //     </View>)
+    // }
 
-    _renderListsSettingGroup = ({ item }) => (
-        <ListItem title={item} titleStyle={{fontWeight:'bold'}} subtitle={
-            (<List>
-                <ListItem/>
-                <FlatList
-                    extraData={this.state}                   
-                    data={Config.settingsFields[item]}
-                    keyExtractor={(settingItem, j) => j}                    
-                    renderItem={({item}) => (
-                        <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
-                            { this.state.settings && this.renderItemType(item) }
-                        </View>   
-                    )}
-                />
-            </List>)
-        }
-        hideChevron={true}>
-        </ListItem>
-    )
+    // _renderListsSettingGroup = ({ item }) => (
+    //     <ListItem title={item} titleStyle={{fontWeight:'bold'}} subtitle={
+    //         (<List>
+    //             <ListItem/>
+    //             <FlatList
+    //                 extraData={this.state}                   
+    //                 data={Config.settingsFields[item]}
+    //                 keyExtractor={(settingItem, j) => j}                    
+    //                 renderItem={({item}) => (
+    //                     <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
+    //                         { this.state.settings && this.renderItemType(item) }
+    //                     </View>   
+    //                 )}
+    //             />
+    //         </List>)
+    //     }
+    //     hideChevron={true}>
+    //     </ListItem>
+    // )
 
     render() {
-        return (
+        if (this.state.settings) return (
             <View>
                 <Text style={{fontSize: 20}}>{settingsFields.Lists.name}</Text>
 
                 <FormLabel>{settingsFields.Lists.disableSearchBar.title}</FormLabel>            
-                <FormInput />
+                <FormInput placeholder={this.state.settings.disableSearchBar}/>
                 <FormValidationMessage>Error message</FormValidationMessage>
             </View>
         )
+        else return null
     }
 }

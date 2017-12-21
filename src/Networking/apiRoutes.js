@@ -6,6 +6,8 @@ export default apiRoutes = {
         apiUrl: 'https://min-api.cryptocompare.com',
         data: '/data',
         all: '/all',
+        price: '/price',
+        coinSnapshot: '/coinSnapshot',
         media: '/media', //https://www.cryptocompare.com/media/19782/litecoin-logo.png        
         coinList: '/coinlist',
         toMinute: '/histominute',

@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements'
 import Watched  from './Watched'
 import All from './All'
 import Settings from './Settings'
+import SelectExchange from './SelectExchange'
 import CoinDetails from './CoinDetails'
 
 export const WatchedStack = StackNavigator({
@@ -14,10 +15,10 @@ export const WatchedStack = StackNavigator({
   },
   Details: {
     screen: CoinDetails,
-    navigationOptions: ({ navigation }) => ({
-      title: `COIN NAME`
-    })
   },
+  SelectExchange: {
+    screen: SelectExchange,    
+  }
 }, {
   headerMode: 'none',
 });

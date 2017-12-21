@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, Text, StyleSheet, View } from 'react-native'
-import { Icon, Card, ButtonGroup } from 'react-native-elements'
+import { Icon, Card, ButtonGroup, Button } from 'react-native-elements'
 import { Networking } from '../Networking/networking'
 import PercentageChange from './PercentageChange'
 import WatchButton from './WatchButton'
@@ -54,6 +54,9 @@ export default class CoinDetails extends Component {
                             buttons={buttons}
                             containerStyle={{height: 20, flex: 1}}
                         />
+                    </View>
+                    <View style={styles.viewWrapper}>
+                        <Button onPress={() => this.props.navigation.navigate('SelectExchange', {coin: this.state.coin})} title={'Select Exchange'}/>
                     </View>
                     <View style={styles.viewWrapper}>
                         <WatchButton coin={this.state.coin} />

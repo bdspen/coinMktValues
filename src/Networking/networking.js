@@ -42,6 +42,18 @@ export class Networking {
         }))
     }
 
+    getAvailableMarkets(fromSymbol, toSymbol){
+        return fetch(this.networkConfig.coinSnapshotUrl(fromSymbol, toSymbol))
+        .then((result) => result.json())
+        .then(result => {
+            if (result.length === 0){
+                console.log('retrying request...')
+                this.getAvailableMarkets(fromSymbol, toSymbol)
+            }
+            else return result
+        })
+    }
+
     getHistory(toTime, fromSymbol, toSymbol, limit) {
         return fetch(this.networkConfig.historyUrl(toTime, fromSymbol, toSymbol, limit))
         .then(result => {

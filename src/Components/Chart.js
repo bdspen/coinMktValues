@@ -20,6 +20,7 @@ export default class Chart extends Component {
             isLoading: true,
             coin: props.coin,
             chartData: null,
+            exchange: props.exchange,
             selectedIndex: props.selectedIndex
         }
     }
@@ -37,7 +38,8 @@ export default class Chart extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             coin: nextProps.coin,
-            selectedIndex: nextProps.selectedIndex
+            selectedIndex: nextProps.selectedIndex,
+            exchange: nextProps.exchange
         }, this.fetchChartData)
     }
     
@@ -48,7 +50,7 @@ export default class Chart extends Component {
     }
 
     fetchChartData() {
-        this.networking.getHistory(this.timeScales[this.state.selectedIndex], this.state.coin.symbol, 'USD', this.numberOfCandles)
+        this.networking.getHistory(this.timeScales[this.state.selectedIndex], this.state.coin.symbol, 'USD', this.numberOfCandles, this.state.exchange)
         .then(({ Data }) => {
 
             Data.forEach(({time}, i) => {

@@ -19,8 +19,18 @@ export class NetworkConfig {
         return url + qs
     }
 
+    coinSnapshotUrl(fromSymbol, toSymbol){
+        let url = `${apiRoutes.CC.apiUrl}${apiRoutes.CC.data}${apiRoutes.CC.coinSnapshot}?`
+        let qs = QS.stringify({
+            fsym: fromSymbol,
+            tsym: toSymbol,
+        });
+
+        return url + qs
+    }
+
     // /data/histominute?fsym=BTC&tsym=USD&limit=60&aggregate=3&e=CCCAGG
-    historyUrl(toTime, fromSymbol, toSymbol, limit = 20) {
+    historyUrl(toTime, fromSymbol, toSymbol, limit = 20, exchange) {
 
         let url = `${apiRoutes.CC.apiUrl}${apiRoutes.CC.data}${apiRoutes.CC[toTime]}?`
 
@@ -28,7 +38,7 @@ export class NetworkConfig {
             fsym: fromSymbol,
             tsym: toSymbol,
             limit: limit,
-            e: apiRoutes.CC.defaults.exchange
+            e: exchange || apiRoutes.CC.defaults.exchange
         });
 
         return url + qs                  

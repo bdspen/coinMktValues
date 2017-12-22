@@ -30,19 +30,18 @@ export default class CoinDetails extends Component {
     }
 
     toggleModal(){
-        this.setState({modal: !this.state.modal})
+        return this.setState({modal: !this.state.modal})
     }
 
     updateCoin(exchange){
-        this.networking.priceMultiFull(this.state.coin.symbol, 'USD', exchange)
+        return this.networking.priceMultiFull(this.state.coin.symbol, 'USD', exchange)
     }
 
     selectExchange(exchange){
         // (this.state.exchanges[this.state.selectedExchangeIndex])
         //must pass exchange from the child to here.
-        Promise.all([this.toggleModal(), this.updateCoin(exchange)])
-        .then(([toggle, coin]) => {
-            this.setState({coin: coin})
+        this.updateCoin(exchange).then((result) => {
+            this.setState({coin: result}, this.toggleModal())
         })
     }
 

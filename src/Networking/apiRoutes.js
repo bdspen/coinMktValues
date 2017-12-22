@@ -3,7 +3,7 @@ export default apiRoutes = {
     //cryptocompare api
     CC: {
         serverUrl: 'https://www.cryptocompare.com',
-        apiUrl: 'https://min-api.cryptocompare.com/api',
+        apiUrl: 'https://min-api.cryptocompare.com',
         apiParam: '/api',
         data: '/data',
         all: '/all',

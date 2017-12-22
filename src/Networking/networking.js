@@ -58,7 +58,10 @@ export class Networking {
     priceMultiFull(fromSymbol, toSymbol, exchange){
         return fetch(this.networkConfig.priceMultiFullUrl(fromSymbol, toSymbol, exchange))
         .then(result => result.json())
-        .then(({Raw}) => Raw[fromSymbol][toSymbol])
+        .then((result) => {
+            console.log(result)
+            return Raw[fromSymbol][toSymbol]
+        })
     }
 
     getHistory(toTime, fromSymbol, toSymbol, limit, exchange) {

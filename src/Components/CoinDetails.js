@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, Text, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, Text, StyleSheet, View, ScrollView } from 'react-native'
 import { Icon, Card, ButtonGroup, Button } from 'react-native-elements'
 import { Networking } from '../Networking/networking'
 import PercentageChange from './PercentageChange'
 import WatchButton from './WatchButton'
+import SelectExchange from './SelectExchange'
 import { FormattedCurrency, FormattedNumber } from 'react-native-globalize'
 import { Config } from '../Config'
 import moment from 'moment';
@@ -15,13 +16,34 @@ export default class CoinDetails extends Component {
         this.state = {
             isLoading: true,
             coin: props.navigation.state.params.coin,
-            selectedIndex: 1        
+            selectedIndex: 1        ,
+            modal: false
         }
-        this.updateIndex = this.updateIndex.bind(this)        
+        this.networking = new Networking()
+        this.updateIndex = this.updateIndex.bind(this)   
+        this.selectExchange = this.selectExchange.bind(this)
+        this.toggleModal = this.toggleModal.bind(this)        
     }
 
     updateIndex (selectedIndex) {
         this.setState({selectedIndex})
+    }
+
+    toggleModal(){
+        this.setState({modal: !this.state.modal})
+    }
+
+    updateCoin(exchange){
+        this.networking.priceMultiFull(this.state.coin.symbol, 'USD', exchange)
+    }
+
+    selectExchange(exchange){
+        // (this.state.exchanges[this.state.selectedExchangeIndex])
+        //must pass exchange from the child to here.
+        Promise.all([this.toggleModal(), this.updateCoin(exchange)])
+        .then(([toggle, coin]) => {
+            this.setState({coin: coin})
+        })
     }
 
     render() {
@@ -29,6 +51,7 @@ export default class CoinDetails extends Component {
         const buttons = ['Minutes', 'Hours', 'Days']
 
         return (
+            <ScrollView>
             <Card title={this.state.coin.name + ' (' + this.state.coin.symbol + ')'} containerStyle={{margin:0}} >
                 <View style={styles.column}>
                     <View style={styles.viewWrapper}>
@@ -55,9 +78,11 @@ export default class CoinDetails extends Component {
                             containerStyle={{height: 20, flex: 1}}
                         />
                     </View>
-                    <View style={styles.viewWrapper}>
-                        <Button onPress={() => this.props.navigation.navigate('SelectExchange', {coin: this.state.coin})} title={'Select Exchange'}/>
-                    </View>
+                    {
+                        !this.state.modal && <View style={styles.viewWrapper}>
+                            <Button onPress={this.toggleModal} title={'Select Exchange'} color={Config.colors.defaultBlue} backgroundColor={'white'}/>
+                        </View>
+                    }
                     <View style={styles.viewWrapper}>
                         <WatchButton coin={this.state.coin} />
                     </View>
@@ -66,7 +91,11 @@ export default class CoinDetails extends Component {
                         <PercentageChange coin={this.state.coin}/>
                     </View> */}
                     <View style={styles.viewWrapper}>
-                        <Chart coin={this.state.coin} selectedIndex={this.state.selectedIndex}/>
+                        {this.state.modal ?
+                            <SelectExchange coin={this.state.coin} selectExchange={this.selectExchange}/>
+                            :
+                            <Chart coin={this.state.coin} selectedIndex={this.state.selectedIndex}/>
+                        }
                     </View>
                     <Text>Last Updated: {
                         moment((this.state.coin.lastUpdated * 1000)).format('h:mm')
@@ -74,6 +103,7 @@ export default class CoinDetails extends Component {
                 </View>
 
             </Card>
+            </ScrollView>
         );
     }
 }

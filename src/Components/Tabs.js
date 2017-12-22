@@ -17,10 +17,10 @@ export const WatchedStack = StackNavigator({
     screen: CoinDetails,
   },
   SelectExchange: {
-    screen: SelectExchange,    
+    screen: SelectExchange,
   }
 }, {
-  headerMode: 'none',
+  headerMode: 'none'
 });
 
 export const Tabs = TabNavigator({

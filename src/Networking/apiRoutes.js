@@ -8,6 +8,7 @@ export default apiRoutes = {
         data: '/data',
         all: '/all',
         price: '/price',
+        priceMultiFull: '/pricemultifull',
         coinSnapshot: '/coinsnapshot',
         media: '/media', //https://www.cryptocompare.com/media/19782/litecoin-logo.png        
         coinList: '/coinlist',

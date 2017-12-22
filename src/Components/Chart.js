@@ -50,7 +50,13 @@ export default class Chart extends Component {
     }
 
     fetchChartData() {
-        this.networking.getHistory(this.timeScales[this.state.selectedIndex], this.state.coin.symbol, 'USD', this.numberOfCandles, this.state.exchange)
+        this.networking.getHistory(
+            this.timeScales[this.state.selectedIndex],
+            this.state.coin.symbol,
+            'USD',
+            this.numberOfCandles,
+            this.state.exchange
+        )
         .then(({ Data }) => {
 
             Data.forEach(({time}, i) => {

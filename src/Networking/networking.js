@@ -42,13 +42,26 @@ export class Networking {
         }))
     }
 
-    getAvailableMarkets(fromSymbol, toSymbol){
+    getAvailableMarkets(fromSymbol, toSymbol, sorted = true){
         return fetch(this.networkConfig.coinSnapshotUrl(fromSymbol, toSymbol))
         .then((result) => result.json())
-        .then(({Data}) => Data.Exchanges.map(this._extractExchangeInfo))
+        .then(({Data}) => {
+            if (!sorted) return Data.Exchanges.map(this._extractExchangeInfo)
+            return Data.Exchanges.sort((e, eLast) => {
+                return eLast.VOLUME24HOUR - e.VOLUME24HOUR
+            })
+            .filter(e => parseInt(e.VOLUME24HOUR))
+            .map(this._extractExchangeInfo)
+        })
     }
 
-    getHistory(toTime, fromSymbol, toSymbol, limit) {
+    priceMultiFull(fromSymbol, toSymbol, exchange){
+        return fetch(this.networkConfig.priceMultiFullUrl(fromSymbol, toSymbol, exchange))
+        .then(result => result.json())
+        .then(({Raw}) => Raw[fromSymbol][toSymbol])
+    }
+
+    getHistory(toTime, fromSymbol, toSymbol, limit, exchange) {
         return fetch(this.networkConfig.historyUrl(toTime, fromSymbol, toSymbol, limit))
         .then(result => {
             result = result.json()

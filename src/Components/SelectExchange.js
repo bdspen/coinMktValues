@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { ActivityIndicator, View, StyleSheet, Picker } from 'react-native';
 import { Networking } from '../Networking/networking'
 import Loading from './Loading'
+import { Button } from 'react-native-elements';
+import { Config } from '../Config'
 
 export default class SelectExchange extends Component {
 
@@ -10,10 +12,11 @@ export default class SelectExchange extends Component {
         super(props);
         this.state = {
             isLoading: true,
-            coin: props.navigation.state.params.coin,
+            coin: props.coin,
             exchanges: [],
-            selectedExchange: null
+            selectedExchangeIndex: null
         }
+        this.selectExchange = props.selectExchange
     }
 
 // {
@@ -52,7 +55,7 @@ export default class SelectExchange extends Component {
     renderPickerItems(){
         return this.state.exchanges.map((e, i) => {
             const price = parseFloat(e.price).toFixed(2)
-            return <Picker.Item label={`${e.market} : $git${price}`} value={i} />                            
+            return <Picker.Item label={`${e.market} : $${price}`} key={i} value={i} />                            
         })
     }
 
@@ -66,11 +69,11 @@ export default class SelectExchange extends Component {
         return (
             <View style={{flex: 1}}>
                 <Picker
-                    style={{flex: 1}}
-                    selectedValue={this.state.exchanges[0]}
-                    onValueChange={(val, index) => this.setState({ selectedExchange: this.state.exchanges[index]})}>
+                    selectedValue={this.state.selectedExchangeIndex}
+                    onValueChange={(val, index) => this.setState({ selectedExchangeIndex: index})}>
                     { this.renderPickerItems() }
                 </Picker>
+                <Button onPress={this.selectExchange} title={'Select'} color={Config.colors.defaultBlue} backgroundColor={'white'}/>
             </View>
         )
     }

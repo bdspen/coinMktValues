@@ -29,8 +29,21 @@ export class NetworkConfig {
         return url + qs
     }
 
+    // https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH,DASH&tsyms=BTC,USD,EUR
+    priceMultiFullUrl(fromSymbol, toSymbol, exchange){
+        let url = `${apiRoutes.CC.apiUrl}${apiRoutes.CC.data}${apiRoutes.CC.priceMultiFull}?`
+
+        let qs = QS.stringify({
+            fsym: fromSymbol,
+            tsym: toSymbol,
+            e: exchange
+        });
+
+        return url + qs 
+    }
+
     // /data/histominute?fsym=BTC&tsym=USD&limit=60&aggregate=3&e=CCCAGG
-    historyUrl(toTime, fromSymbol, toSymbol, limit = 20, exchange) {
+    historyUrl(toTime, fromSymbol, toSymbol, limit = 20, exchange = apiRoutes.CC.defaults.exchange) {
 
         let url = `${apiRoutes.CC.apiUrl}${apiRoutes.CC.data}${apiRoutes.CC[toTime]}?`
 
@@ -38,7 +51,7 @@ export class NetworkConfig {
             fsym: fromSymbol,
             tsym: toSymbol,
             limit: limit,
-            e: exchange || apiRoutes.CC.defaults.exchange
+            e: exchange
         });
 
         return url + qs                  

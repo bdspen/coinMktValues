@@ -38,16 +38,18 @@ export class Storage {
 
     async getWatchedCoins() {
 
-        let watchedCoins = await AsyncStorage.getItem(Stores.watched)
-
-        if(watchedCoins) watchedCoins = JSON.parse(watchedCoins)        
-        if(!watchedCoins.length) {
-            return this.setWatchedCoins(Config.defaultWatchListCoins)
-            .then(() => this.getWatchedCoins())
-        }
-
-        if (!Array.isArray(watchedCoins)) watchedCoins = [watchedCoins]
-        return watchedCoins
+        return AsyncStorage.getItem(Stores.watched).then(watchedCoins => {
+            if(watchedCoins) watchedCoins = JSON.parse(watchedCoins) 
+            else return [] 
+            if(!watchedCoins.length) {
+                return this.setWatchedCoins(Config.defaultWatchListCoins)
+                .then(() => this.getWatchedCoins())
+            }
+    
+            if (!Array.isArray(watchedCoins)) watchedCoins = [watchedCoins]
+            return watchedCoins
+        })
+ 
     }
 
     getCoinResource() {

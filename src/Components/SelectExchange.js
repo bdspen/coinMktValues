@@ -14,9 +14,11 @@ export default class SelectExchange extends Component {
             isLoading: true,
             coin: props.coin,
             exchanges: [],
-            selectedExchangeIndex: null
+            selectedExchangeIndex: 0
         }
         this.selectExchange = props.selectExchange
+        this.select = this.select.bind(this)
+        this.valChange = this.valChange.bind(this)
     }
 
 // {
@@ -51,6 +53,15 @@ export default class SelectExchange extends Component {
             })
         })
     }
+    
+    select() {
+        const exchange = this.state.exchanges[this.state.selectedExchangeIndex]
+        if(exchange) this.selectExchange(exchange)
+    }
+
+    valChange(val, index) {
+        this.setState({ selectedExchangeIndex: index})
+    }
 
     renderPickerItems(){
         return this.state.exchanges.map((e, i) => {
@@ -70,10 +81,10 @@ export default class SelectExchange extends Component {
             <View style={{flex: 1}}>
                 <Picker
                     selectedValue={this.state.selectedExchangeIndex}
-                    onValueChange={(val, index) => this.setState({ selectedExchangeIndex: index})}>
+                    onValueChange={this.valChange}>
                     { this.renderPickerItems() }
                 </Picker>
-                <Button onPress={this.selectExchange} title={'Select'} color={Config.colors.defaultBlue} backgroundColor={'white'}/>
+                <Button onPress={this.select} title={'Select'} color={Config.colors.defaultBlue} backgroundColor={'white'}/>
             </View>
         )
     }

@@ -43,6 +43,7 @@ export class Networking {
     }
 
     getAvailableMarkets(fromSymbol, toSymbol, sorted = true){
+        if(fromSymbol === 'IOTA' || 'MIOTA') fromSymbol = 'IOT'
         return fetch(this.networkConfig.coinSnapshotUrl(fromSymbol, toSymbol))
         .then((result) => result.json())
         .then(({Data}) => {
@@ -55,25 +56,20 @@ export class Networking {
         })
     }
 
-    priceMultiFull(fromSymbol, toSymbol, exchange){
-        return fetch(this.networkConfig.priceMultiFullUrl(fromSymbol, toSymbol, exchange))
+    priceMultiFull(fromSymbols, toSymbols, exchange){
+        if(fromSymbol === 'IOTA' || 'MIOTA') fromSymbol = 'IOT'
+        return fetch(this.networkConfig.priceMultiFullUrl(fromSymbols, toSymbols, exchange))
         .then(result => result.json())
         .then((result) => {
-            console.log(result)
-            return Raw[fromSymbol][toSymbol]
+            console.log(JSON.stringify(result['RAW'][fromSymbol][toSymbol]))
+            return new Coin(result['RAW'][fromSymbol][toSymbol])
         })
     }
 
     getHistory(toTime, fromSymbol, toSymbol, limit, exchange) {
+        if(fromSymbol === 'IOTA' || 'MIOTA') fromSymbol = 'IOT'
         return fetch(this.networkConfig.historyUrl(toTime, fromSymbol, toSymbol, limit))
-        .then(result => {
-            result = result.json()
-            if (result.length === 0){
-                console.log('retrying request...')
-                this.getHistory(toTime, fromSymbol, toSymbol, limit)
-            }
-            else return result
-        })
+        .then(result => result.json())
     }
 
     _extractExchangeInfo({MARKET, PRICE, LASTUPDATE }){

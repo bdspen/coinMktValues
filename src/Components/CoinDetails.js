@@ -34,13 +34,13 @@ export default class CoinDetails extends Component {
     }
 
     updateCoin(exchange){
-        return this.networking.priceMultiFull(this.state.coin.symbol, 'USD', exchange)
+        return this.networking.priceMultiFull(this.state.coin.symbol, ['USD', 'BTC'], exchange.market)
     }
 
     selectExchange(exchange){
         // (this.state.exchanges[this.state.selectedExchangeIndex])
         //must pass exchange from the child to here.
-        this.updateCoin(exchange).then((result) => {
+        return this.updateCoin(exchange).then((result) => {
             this.setState({coin: result}, this.toggleModal())
         })
     }

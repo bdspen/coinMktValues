@@ -30,12 +30,12 @@ export class NetworkConfig {
     }
 
     // https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH,DASH&tsyms=BTC,USD,EUR
-    priceMultiFullUrl(fromSymbol, toSymbol, exchange){
+    priceMultiFullUrl(fromSymbols, toSymbols = ['USD', 'BTC'], exchange){
         let url = `${apiRoutes.CC.apiUrl}${apiRoutes.CC.data}${apiRoutes.CC.priceMultiFull}?`
 
         let qs = QS.stringify({
-            fsym: fromSymbol,
-            tsym: toSymbol,
+            fsyms: fromSymbol,
+            tsyms: toSymbol,
             e: exchange
         });
 

@@ -59,6 +59,7 @@ export default class CoinList extends Component {
     _renderItem = ({ item }) => (
         <ListItem
             // leftIcon={<Image source={}/>}
+            containerStyle={{ borderTopWidth: 2, borderTopColor: '#e9e9e9'}}
             title={item.name + ' (' + item.symbol + ')'}
             style={{fontSize: 20}}
             onPress={() => this.props.navigation.navigate('Details', {coin: item})}            

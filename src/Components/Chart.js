@@ -94,11 +94,11 @@ export default class Chart extends Component {
                                 fontSize: 12, fill: "#c43a31"
                             }
                         }}
-                        animate={{
-                            onEnter: {
-                                before: () => ({ _y: 0 }),
-                            }
-                        }}
+                        // animate={{
+                        //     onEnter: {
+                        //         before: () => ({ _y: 0 }),
+                        //     }
+                        // }}
                         candleColors={{
                             positive: Config.colors.positiveGreen,
                             negative: Config.colors.negativeRed

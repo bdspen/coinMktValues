@@ -34,7 +34,7 @@ export default class CoinDetails extends Component {
     }
 
     updateCoin(exchange){
-        return this.networking.priceMultiFull(this.state.coin.symbol, ['USD', 'BTC'], exchange.market)
+        return this.networking.priceMultiFull([this.state.coin.symbol], ['USD', 'BTC'], exchange.market)
     }
 
     selectExchange(exchange){

@@ -7,6 +7,30 @@ import All from './All'
 import Settings from './Settings'
 import SelectExchange from './SelectExchange'
 import CoinDetails from './CoinDetails'
+import { Platform } from 'react-native'
+import { Config } from '../Config';
+
+const tabBarOptions = Platform.OS === 'ios' ? 
+{
+  //ios
+  labelStyle: {
+    fontSize: 14,
+  },
+  style: { marginTop: 20 },
+} : {
+  //android
+  labelStyle: {
+    fontSize: 14,
+  },
+  iconStyle: {
+    width: 60
+  },
+  style: {
+    backgroundColor: Config.colors.veryDarkGrey,
+  },
+  showIcon: true,
+  showLabel: true,
+}
 
 export const WatchedStack = StackNavigator({
   Watched: {
@@ -28,7 +52,7 @@ export const Tabs = TabNavigator({
     screen: WatchedStack,
     navigationOptions: ({navigation}) => ({
       tabBarLabel: 'Watched',
-      tabBarIcon: ({ tintColor }) => <Icon name="eye" type={'font-awesome'} size={30} color={tintColor} />,
+      tabBarIcon: ({ tintColor }) => <Icon name="eye" type={'font-awesome'} size={30} color={tintColor}/>,
       tabBarOnPress: ({scene, jumpToIndex}) => {
         if (scene.route.index !== 0) { // if not on first screen of the StackNavigator in focused tab.
           navigation.dispatch(NavigationActions.reset({
@@ -39,14 +63,14 @@ export const Tabs = TabNavigator({
           }))
         }
           jumpToIndex(0) // go to another tab (the default behavior)
-      }
+      },
     }),
   },
   All: {
     screen: All,
     navigationOptions: {
       tabBarLabel: 'All',
-      tabBarIcon: ({ tintColor }) => <Icon name="all-inclusive" size={30} color={tintColor} />
+      tabBarIcon: ({ tintColor }) => <Icon name="all-inclusive" size={30} color={tintColor} />,
     },
   },
   // Settings: {
@@ -60,10 +84,5 @@ export const Tabs = TabNavigator({
   tabBarPosition: 'top',
   animationEnabled: true,
   lazy: true,
-  tabBarOptions: {
-    labelStyle: {
-      fontSize: 14,
-    },
-    style: {marginTop: 20},
-  },
+  tabBarOptions: tabBarOptions
 })

@@ -1,11 +1,12 @@
 import { Storage } from '../Storage/storage'
 import { NetworkConfig } from './network-config'
+import { Config } from '../Config'
 import Coin from '../Models/Coin'
 export class Networking {
 
     constructor() {
         this.networkConfig = new NetworkConfig()  
-        this.storage = new Storage()      
+        this.storage = new Storage() 
     }
 
     parseCoins(coins) {
@@ -43,8 +44,7 @@ export class Networking {
     }
 
     getAvailableMarkets(fromSymbol, toSymbol, sorted = true){
-        if(fromSymbol === 'IOTA' || 'MIOTA') fromSymbol = 'IOT'
-        return fetch(this.networkConfig.coinSnapshotUrl(fromSymbol, toSymbol))
+        return fetch(this.networkConfig.coinSnapshotUrl(fromSymbol.translated(), toSymbol))
         .then((result) => result.json())
         .then(({Data}) => {
             if (!sorted) return Data.Exchanges.map(this._extractExchangeInfo)
@@ -57,18 +57,22 @@ export class Networking {
     }
 
     priceMultiFull(fromSymbols, toSymbols, exchange){
-        if(fromSymbol === 'IOTA' || 'MIOTA') fromSymbol = 'IOT'
-        return fetch(this.networkConfig.priceMultiFullUrl(fromSymbols, toSymbols, exchange))
+        return fetch(this.networkConfig.priceMultiFullUrl(Coin.translateSymbolNames(fromSymbols), toSymbols, exchange))
         .then(result => result.json())
         .then((result) => {
-            console.log(JSON.stringify(result['RAW'][fromSymbol][toSymbol]))
-            return new Coin(result['RAW'][fromSymbol][toSymbol])
+
+            console.log(Coin.translateSymbolNames(fromSymbols).map(fromSym => {
+                return toSymbols.map(toSym => new Coin(result.RAW[fromSym][toSym]))
+            }))
+
+            return Coin.translateSymbolNames(fromSymbols).map(fromSym => {
+                return toSymbols.map(toSym => new Coin(result.RAW[fromSym][toSym]))
+            })
         })
     }
 
     getHistory(toTime, fromSymbol, toSymbol, limit, exchange) {
-        if(fromSymbol === 'IOTA' || 'MIOTA') fromSymbol = 'IOT'
-        return fetch(this.networkConfig.historyUrl(toTime, fromSymbol, toSymbol, limit))
+        return fetch(this.networkConfig.historyUrl(toTime, fromSymbol.translated(), toSymbol, limit))
         .then(result => result.json())
     }
 

@@ -4,6 +4,11 @@ export const Config = Object.freeze({
         positiveGreen: "#56a440",
         negativeRed: "#f86940",
         defaultBlue: "#007aff",
-        darkGrey: '#a9a9a9'
+        darkGrey: '#a9a9a9',
+        veryDarkGrey: '#4d4d4d'
+    },
+    translations: {
+        "IOTA": "IOT",
+        "MIOTA": "IOT"
     }
 });

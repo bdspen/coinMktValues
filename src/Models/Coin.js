@@ -18,6 +18,40 @@ export default class Coin {
         imageUrl = coin.ImageUrl
         exchange = coin.exchange
     }
+
+    parsedMultiFull(response){
+        return {
+            symbol: this.reverseTranslateSymbolName(response.FROMSYMBOL),
+            priceUsd: responsePRICE,
+            priceBtc: responsePRICE,
+            lastUpdated: responseLASTUPDATE,
+            dayVolumeUsd: responseVOLUME24HOUR,
+            pctChangeHour: responseCHANGEPCTDAY,
+            pctChangeDay: responseCHANGEPCT24HOUR
+        }
+
+    }
+
+    translated() {
+        if (Config.translations[this.symbol])
+            this.symbol = Config.translations[this.symbol]
+    }
+
+    static reverseTranslateSymbolName(symbol) {
+        return Object.keys(Config.translations).filter(sym => {
+            return Config.translations[sym] = symbol;
+        })[0];
+    }
+
+    static translateSymbolName(sym) {
+        if (Config.translations[sym])
+            return Config.translations[sym]
+        else return sym
+    }
+
+    static translateSymbolNames(syms) {
+        return syms.map(this.translateSymbolName)
+    }
     
 }
 

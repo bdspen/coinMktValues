@@ -33,9 +33,10 @@ export class NetworkConfig {
     priceMultiFullUrl(fromSymbols, toSymbols = ['USD', 'BTC'], exchange){
         let url = `${apiRoutes.CC.apiUrl}${apiRoutes.CC.data}${apiRoutes.CC.priceMultiFull}?`
 
+        toSymbols = toSymbols.toString()
         let qs = QS.stringify({
-            fsyms: fromSymbol,
-            tsyms: toSymbol,
+            fsyms: fromSymbols,
+            tsyms: toSymbols,
             e: exchange
         });
 

@@ -2,16 +2,14 @@ import { Storage } from '../Storage/storage'
 import { NetworkConfig } from './network-config'
 import { Config } from '../Config'
 import Coin from '../Models/Coin'
+import PriceMultiFull from '../Models/PriceMultiFull'
+import RequestHelpers from './requestHelpers'
 export class Networking {
 
     constructor() {
         this.networkConfig = new NetworkConfig()  
         this.storage = new Storage() 
-    }
-
-    parseCoins(coins) {
-        coins = coins.map((coin) => new Coin(coin))
-        return coins
+        this.requestHelpers = new RequestHelpers()
     }
 
     // getCoinImage(imageUrl){
@@ -27,7 +25,7 @@ export class Networking {
         const url = this.networkConfig.tickerUrl()
         return fetch(url)
         .then(res => res.json())
-        .then(this.parseCoins)
+        .then(this.reqestHelpers.parseCoins)
     }
 
     async getWatchedCoins(coinIds) {
@@ -38,13 +36,13 @@ export class Networking {
             const url = this.networkConfig.tickerUrl(coinId)
             return fetch(url)
                 .then(result => result.json())
-                .then(this.parseCoins)
+                .then(this.reqestHelpers.parseCoins)
                 .then(res => res[0])
         }))
     }
 
     getAvailableMarkets(fromSymbol, toSymbol, sorted = true){
-        return fetch(this.networkConfig.coinSnapshotUrl(fromSymbol.translated(), toSymbol))
+        return fetch(this.networkConfig.coinSnapshotUrl(this.requestHelpers.translateSymbolName(fromSymbol), toSymbol))
         .then((result) => result.json())
         .then(({Data}) => {
             if (!sorted) return Data.Exchanges.map(this._extractExchangeInfo)
@@ -57,22 +55,31 @@ export class Networking {
     }
 
     priceMultiFull(fromSymbols, toSymbols, exchange){
-        return fetch(this.networkConfig.priceMultiFullUrl(Coin.translateSymbolNames(fromSymbols), toSymbols, exchange))
+        return fetch(this.networkConfig.priceMultiFullUrl(this.requestHelpers.translateSymbolNames(fromSymbols), toSymbols, exchange))
         .then(result => result.json())
         .then((result) => {
 
-            console.log(Coin.translateSymbolNames(fromSymbols).map(fromSym => {
-                return toSymbols.map(toSym => new Coin(result.RAW[fromSym][toSym]))
+            // get coin in storage to merge with the response from pricemultifull
+            this.storage.getCoins(fromSymbols)
+
+            console.log(this.requestHelpers.translateSymbolNames(fromSymbols).map(fromSym => {
+                return toSymbols.map(toSym => {
+                    const response = new PriceMultiFull(result.RAW[fromSym][toSym]);
+
+                })
             }))
 
-            return Coin.translateSymbolNames(fromSymbols).map(fromSym => {
-                return toSymbols.map(toSym => new Coin(result.RAW[fromSym][toSym]))
-            })
+            // return this.requestHelpers.translateSymbolNames(fromSymbols).map(fromSym => {
+            //     return toSymbols.map(toSym => new PriceMultiFull(result.RAW[fromSym][toSym]))
+            // })
         })
+        .catch(err => {
+            alert(err)
+        });
     }
 
     getHistory(toTime, fromSymbol, toSymbol, limit, exchange) {
-        return fetch(this.networkConfig.historyUrl(toTime, fromSymbol.translated(), toSymbol, limit))
+        return fetch(this.networkConfig.historyUrl(toTime, this.requestHelpers.translateSymbolName(fromSymbol), toSymbol, limit))
         .then(result => result.json())
     }
 

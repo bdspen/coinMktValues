@@ -33,7 +33,6 @@ export class Storage {
 
     async hasData(store) {
         const keys = await AsyncStorage.getAllKeys()
-        console.log(keys)
     }
 
     async getWatchedCoins() {
@@ -50,6 +49,19 @@ export class Storage {
             return watchedCoins
         })
  
+    }
+
+    getCoins(symbolArray) {
+        AsyncStorage.getAllKeys()
+        .then((keys) => {
+            if (!keys.coinResource) {
+                
+            }
+            else {
+                
+            }
+        })
+        // return AsyncStorage.multiGet(symbolArray);
     }
 
     getCoinResource() {
